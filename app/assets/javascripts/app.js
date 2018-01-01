@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           type: "POST",
           data: `code=${this.code}`,
           success: function(data) {
-            this.result = data["count"];
+            this.result = data;
           }.bind(this)
         });
       }

@@ -3,18 +3,26 @@ class CodeAnalyzer
   def initialize(code='')
     @code = code
     add_counters_to_code!
-    @results = []
+    @graph_data = {}
   end
 
   def results
-    return number_of_steps
+    if @code.index("[*]")
+      @graph_data[1] = run_code(@code.gsub("[*]", "[1]"))
+      @graph_data[2] = run_code(@code.gsub("[*]", "[1, 2]"))
+      @graph_data[3] = run_code(@code.gsub("[*]", "[1, 2, 3]"))
+    else
+      @graph_data = {1 => run_code(@code)}
+    end
+
+    return @graph_data
   end
 
   private
 
-  def number_of_steps
+  def run_code(code)
     begin
-      return eval(@code)
+      return eval(code)
     rescue
       return "Error: Code doesn't run!"
     end
