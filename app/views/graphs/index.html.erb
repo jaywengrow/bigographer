@@ -1,10 +1,13 @@
 <div id="app">
   {{ message }}
 
-  <div>
+  <div id="code">
     <textarea rows="10" cols="50" v-model="code">
     </textarea>
 
     <button v-on:click="analyzeCode()">Analyze Code</button>
+  </div>
+  <div id="result">
+    <p>Number Of Steps: {{ result }}</p>
   </div>
 </div>

@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el: '#app',
     data: {
       message: 'Hello Vue!',
-      code: ''
+      code: '',
+      result: ''
     },
     mounted: function() {
 
@@ -14,11 +15,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         Rails.ajax({
           url: "/api/v1/code",
           type: "POST",
-          // data: "form_name=" + this.newPersonName + "&form_bio=" + this.newPersonBio,
           data: `code=${this.code}`,
           success: function(data) {
-            console.log('success!!!', data);
-            
+            this.result = data["count"];
           }.bind(this)
         });
       }
