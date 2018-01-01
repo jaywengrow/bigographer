@@ -11,7 +11,11 @@ class CodeAnalyzer
       new_code += "count += 1\n"
     end
     new_code += "count"
-    return eval(new_code)
+    begin
+      return eval(new_code)
+    rescue
+      return "Error: Code doesn't run!"
+    end
   end
 
 end
