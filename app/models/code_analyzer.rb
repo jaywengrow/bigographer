@@ -1,4 +1,6 @@
 class CodeAnalyzer
+
+  attr_reader :code, :graph_data
   
   def initialize(code='')
     @code = code
