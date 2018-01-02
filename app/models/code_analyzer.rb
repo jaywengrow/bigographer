@@ -3,14 +3,14 @@ class CodeAnalyzer
   def initialize(code='')
     @code = code
     add_counters_to_code!
-    @graph_data = {}
+    @graph_data = []
   end
 
   def results
     if @code.index("[*]")
-      @graph_data[1] = run_code(@code.gsub("[*]", "[1]"))
-      @graph_data[2] = run_code(@code.gsub("[*]", "[1, 2]"))
-      @graph_data[3] = run_code(@code.gsub("[*]", "[1, 2, 3]"))
+      [100, 500, 1000, 1500, 2000, 2500, 3000].each do |data|
+        @graph_data << {x: data, y: run_code(@code.gsub("[*]", "#{(1..data).to_a}"))}
+      end
     else
       @graph_data = {1 => run_code(@code)}
     end

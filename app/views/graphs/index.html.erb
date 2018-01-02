@@ -8,6 +8,8 @@
     <button v-on:click="analyzeCode()">Analyze Code</button>
   </div>
   <div id="result">
-    <p>Number Of Steps: {{ result }}</p>
+    <p>Number Of Steps: {{ results }}</p>
   </div>
+
+  <line-chart :chart-data="chartData" :options="options"></line-chart>
 </div>
