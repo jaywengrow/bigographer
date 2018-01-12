@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     el: '#app',
     data: {
       options: {responsive: true, maintainAspectRatio: false},
-      message: 'Hello Vue!',
+      message: 'Submit Ruby Code Below',
       code: '',
       results: [],
       chartData: {
