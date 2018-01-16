@@ -48,6 +48,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             };
           }.bind(this)
         });
+      },
+      addTextArea: function() {
+        $("<textarea rows='10' cols='50' v-model='code'></textarea>").insertAfter("textarea");
       }
 
     },
