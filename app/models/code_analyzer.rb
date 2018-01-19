@@ -3,9 +3,9 @@ class CodeAnalyzer
   attr_reader :code, :graph_data
   
   def initialize(code='')
-    @code = code
+    @codes = code.split(',')
     add_counters_to_code!
-    @graph_data = []
+    @graphs_data = Array.new(@codes.length) { Array.new }
   end
 
   # The 'results' method is the brains behind the time complexity analysis.
@@ -16,13 +16,14 @@ class CodeAnalyzer
   # and y indicates the number of steps it takes for the code to actually run.
 
   def results
-    if @code.index("[*]")
-      [100, 500, 1000, 1500, 2000, 2500, 3000].each do |data|
-        @graph_data << {x: data, y: run_code(@code.gsub("[*]", "#{(1..data).to_a}"))}
+    @codes.each_with_index do |code, i|
+      if code.index("[*]")
+        [100, 500, 1000, 1500, 2000, 2500, 3000].each do |data|
+          @graphs_data[i] << {x: data, y: run_code(code.gsub("[*]", "#{(1..data).to_a}"))}
+        end
       end
     end
-
-    return @graph_data
+    return @graphs_data
   end
 
 
@@ -43,13 +44,13 @@ class CodeAnalyzer
   # increment count after each line of code runs.
 
   def add_counters_to_code!
-    new_code = "count = 0\n"
-    @code.each_line do |line|
-      new_code += "#{line}\n"
-      new_code += "count += 1\n"
+    @codes.map! do |code|
+      new_code = "count = 0\n"
+      code.each_line do |line|
+        new_code += "#{line}\n"
+        new_code += "count += 1\n"
+      end
+      new_code += "count"
     end
-    new_code += "count"
-    @code = new_code
   end
-
 end

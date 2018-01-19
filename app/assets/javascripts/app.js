@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     data: {
       options: {responsive: true, maintainAspectRatio: false},
       message: 'Submit Ruby Code Below',
-      code: '',
+      codesArray: [''],
       results: [],
       chartData: {
         
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         Rails.ajax({
           url: "/api/v1/code",
           type: "POST",
-          data: `code=${this.code}`,
+          data: `code=${this.codesArray}`,
           success: function(data) {
             this.results = data.results;
             this.chartData = {
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
       },
       addTextArea: function() {
-        $("<textarea rows='10' cols='50' v-model='code'></textarea>").insertAfter("textarea");
+        this.codesArray.push('');
       }
 
     },

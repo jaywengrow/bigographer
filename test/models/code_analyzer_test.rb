@@ -1,7 +1,7 @@
 require 'test_helper'
  
 class CodeAnalyzerTest < ActiveSupport::TestCase
-  
+
   test 'initializing CodeAnalyzer adds counting code to submitted code' do
     code_analyzer = CodeAnalyzer.new('x = 1')
     assert_equal "count = 0\nx = 1\ncount += 1\ncount", code_analyzer.code
