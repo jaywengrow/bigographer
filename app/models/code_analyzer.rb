@@ -36,6 +36,10 @@ class CodeAnalyzer
       return "Error: Code doesn't run!"
     end
   end
+  
+  def skip_comment
+    code.lines.reject { |line| line.lstrip.start_with? '#' }.join
+  end
 
   private
   # The 'add_counters_to_code!' method implements our counting of the code's steps. We follow
@@ -51,5 +55,4 @@ class CodeAnalyzer
     new_code += "count"
     @code = new_code
   end
-
 end
