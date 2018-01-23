@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       message: 'Submit Ruby Code Below',
       codesArray: [''],
       results: [],
+      favoriteColors: ['#F0F02B','#29559F', '#F54600'],
       chartData: {
         
       }
@@ -34,23 +35,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
             this.results = data.results;
             this.chartData = {
               labels: data.results.map(point => point.x),
-              datasets: [
-                {
+              datasets: data.results.map((result) => {
+                return {
                   label: 'Number of steps',
                   borderColor: '#f87979',
                   backgroundColor: '#f87979',
-                  data: data.results,
+                  data: result,
                   fill: false,
                   lineTension: 1,
                   cubicInterpolationMode: 'monotone'
                 }
-              ]
+              })
             };
           }.bind(this)
         });
       },
       addTextArea: function() {
-        this.codesArray.push('');
+        if (this.codesArray.length < 2) {
+          this.codesArray.push('');
+        }
       }
 
     },

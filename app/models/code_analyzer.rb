@@ -1,6 +1,6 @@
 class CodeAnalyzer
 
-  attr_reader :code, :graph_data
+  attr_reader :codes, :graphs_data
   
   def initialize(code='')
     @codes = code.split(',')
