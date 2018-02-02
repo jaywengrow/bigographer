@@ -3,11 +3,7 @@ class CodeAnalyzer
   attr_reader :codes, :graphs_data
   
   def initialize(code='')
-<<<<<<< HEAD
-    @codes = code.split(',')
-=======
     @code = remove_comments(code)
->>>>>>> cdd30556aeeba05c05761eb65ae7495a3f5cdfca
     add_counters_to_code!
     @graphs_data = Array.new(@codes.length) { Array.new }
   end
@@ -27,11 +23,7 @@ class CodeAnalyzer
         end
       end
     end
-<<<<<<< HEAD
     return @graphs_data
-=======
-    @graph_data
->>>>>>> cdd30556aeeba05c05761eb65ae7495a3f5cdfca
   end
 
   # With the 'run_code' method, we attempt to run the code and handle errors if they arise. This doesn't properly handle syntax

@@ -3,7 +3,6 @@ require 'test_helper'
 class CodeAnalyzerTest < ActiveSupport::TestCase
 
   test 'initializing CodeAnalyzer adds counting code to submitted code' do
-<<<<<<< HEAD
     code_analyzer = CodeAnalyzer.new('x = 1')
     assert_equal ["count = 0\nx = 1\ncount += 1\ncount"], code_analyzer.codes
   end
@@ -11,15 +10,6 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
   test 'initializing CodeAnalyzer creates empty graph_data array' do
     code_analyzer = CodeAnalyzer.new('x = 1')
     assert_equal [[]], code_analyzer.graphs_data
-=======
-    analyzer = CodeAnalyzer.new('x = 1')
-    assert_equal "count = 0\nx = 1\ncount += 1\ncount", analyzer.code
-  end
-
-  test 'initializing CodeAnalyzer creates empty graph_data array' do
-    analyzer = CodeAnalyzer.new('x = 1')
-    assert_equal [], analyzer.graph_data
->>>>>>> cdd30556aeeba05c05761eb65ae7495a3f5cdfca
   end
 
   test '#run_code - returning of evaluation of code' do
@@ -33,15 +23,6 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
   end
 
   test '#results - returns complete graph data' do
-<<<<<<< HEAD
-    code_analyzer = CodeAnalyzer.new("[*].each do |number|\nnumber\nend")
-    assert_equal [[{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}]], code_analyzer.results
-  end
-
-  test '#results_of_two_datas - returns complete graph data' do
-    code_analyzer = CodeAnalyzer.new("[*].each do |number|\nnumber\nend,[*].each do |number|\nnumber\nend")
-    assert_equal [[{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}],[{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}]], code_analyzer.results
-=======
     analyzer = CodeAnalyzer.new("[*].each do |number|\nnumber\nend")
     assert_equal [{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}], analyzer.results
   end
@@ -54,6 +35,5 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
   test '#run_code - returns code that does not skip an in line comment' do
     analyzer = CodeAnalyzer.new("[9, 3, 1].each do |number|\nsum += number #ARRRRRRRRRRRR\nend")
     assert_equal analyzer.code, "count = 0\n[9, 3, 1].each do |number|\n\ncount += 1\nsum += number #ARRRRRRRRRRRR\n\ncount += 1\nend\ncount += 1\ncount"
->>>>>>> cdd30556aeeba05c05761eb65ae7495a3f5cdfca
   end
 end
