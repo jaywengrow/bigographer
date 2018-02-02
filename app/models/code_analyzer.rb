@@ -3,7 +3,11 @@ class CodeAnalyzer
   attr_reader :codes, :graphs_data
   
   def initialize(code='')
+<<<<<<< HEAD
     @codes = code.split(',')
+=======
+    @code = remove_comments(code)
+>>>>>>> cdd30556aeeba05c05761eb65ae7495a3f5cdfca
     add_counters_to_code!
     @graphs_data = Array.new(@codes.length) { Array.new }
   end
@@ -23,9 +27,12 @@ class CodeAnalyzer
         end
       end
     end
+<<<<<<< HEAD
     return @graphs_data
+=======
+    @graph_data
+>>>>>>> cdd30556aeeba05c05761eb65ae7495a3f5cdfca
   end
-
 
   # With the 'run_code' method, we attempt to run the code and handle errors if they arise. This doesn't properly handle syntax
   # errors, so will need some further work.
@@ -39,6 +46,19 @@ class CodeAnalyzer
   end
 
   private
+  
+  def skip_comment(code_string)
+    code_string.lines.reject do |line| 
+      line.lstrip.start_with?('#', '=begin', '=end') 
+    end.join
+  end
+
+  def remove_comments(code_string)
+    code_string.lines.reject do |line| 
+      line.lstrip.start_with?('#', '=begin', '=end') 
+    end.join
+  end
+
   # The 'add_counters_to_code!' method implements our counting of the code's steps. We follow
   # a simplistic algorithm, and that is to set a 'count' variable before the code begins, and then
   # increment count after each line of code runs.
