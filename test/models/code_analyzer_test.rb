@@ -26,4 +26,9 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
     code_analyzer = CodeAnalyzer.new("[*].each do |number|\nnumber\nend")
     assert_equal [[{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}]], code_analyzer.results
   end
+
+  test '#results_of_two_datas - returns complete graph data' do
+    code_analyzer = CodeAnalyzer.new("[*].each do |number|\nnumber\nend,[*].each do |number|\nnumber\nend")
+    assert_equal [[{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}],[{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}]], code_analyzer.results
+  end
 end
