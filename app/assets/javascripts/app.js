@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             this.chartData = {
               labels: data.results.map(point => point.x),
               datasets: data.results.map((result) => {
-                var color = this.favoriteColors.pop();
+                let color = this.favoriteColors.pop();
                 return {
                   label: 'Number of steps',
                   borderColor: color,

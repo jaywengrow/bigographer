@@ -3,7 +3,8 @@ class CodeAnalyzer
   attr_reader :codes, :graphs_data
   
   def initialize(code='')
-    @code = remove_comments(code)
+    codes_array = code.split(',')
+    @codes = remove_comments(codes_array)
     add_counters_to_code!
     @graphs_data = Array.new(@codes.length) { Array.new }
   end
@@ -39,16 +40,12 @@ class CodeAnalyzer
 
   private
   
-  def skip_comment(code_string)
-    code_string.lines.reject do |line| 
-      line.lstrip.start_with?('#', '=begin', '=end') 
-    end.join
-  end
-
-  def remove_comments(code_string)
-    code_string.lines.reject do |line| 
-      line.lstrip.start_with?('#', '=begin', '=end') 
-    end.join
+  def remove_comments(code_array)
+    code_array.map do |code_string|
+      code_string.lines.reject do |line| 
+        line.lstrip.start_with?('#', '=begin', '=end') 
+      end.join
+    end
   end
 
   # The 'add_counters_to_code!' method implements our counting of the code's steps. We follow
