@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   Vue.component('line-chart', {
     extends: VueChartJs.Line,
     mixins: [VueChartJs.mixins.reactiveProp],
-    props: ['chartData', 'options'],
+    props: ['chartData', 'options', 'favoriteColors'],
     mounted () {
       this.renderChart(this.chartData, this.options)
     }
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       message: 'Submit Ruby Code Below',
       codesArray: [''],
       results: [],
-      favoriteColors: ['#F0F02B','#29559F', '#F54600'],
+      favoriteColors: ['#3f4144','#42d182'],
       chartData: {
         
       }
@@ -36,10 +36,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             this.chartData = {
               labels: data.results.map(point => point.x),
               datasets: data.results.map((result) => {
+                var color = this.favoriteColors.pop();
                 return {
                   label: 'Number of steps',
-                  borderColor: '#f87979',
-                  backgroundColor: '#f87979',
+                  borderColor: color,
+                  backgroundColor: color,
                   data: result,
                   fill: false,
                   lineTension: 1,
@@ -55,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
           this.codesArray.push('');
         }
       }
-
     },
     computed: {
 

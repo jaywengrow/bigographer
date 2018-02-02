@@ -4,7 +4,7 @@
   <div id="code">
     <div class="text-container">
       <div class="text-area-div">
-      <textarea v-for="(code, index) in codesArray" rows="10" cols="50" v-model="codesArray[index]">{{ code }}</textarea>
+        <textarea v-for="(code, index) in codesArray" rows="10" cols="50" v-model="codesArray[index]" v-bind:style="{ color: favoriteColors[index] }">{{ code }}</textarea>
       </div>
       <div>
         <i class="material-icons" v-on:click="addTextArea()">add</i>
