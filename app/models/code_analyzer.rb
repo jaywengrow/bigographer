@@ -35,6 +35,15 @@ class CodeAnalyzer
     end
   end
   
+<<<<<<< HEAD
+=======
+  def skip_comment
+    code.lines.reject do |line| 
+      line.lstrip.start_with?('#', '=begin', '=end') 
+    end.join
+  end
+
+>>>>>>> 603a658c8619dfc06bc4488257a55c71267491c8
   private
 
   def remove_comments(code_string)

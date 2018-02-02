@@ -26,6 +26,7 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
     assert_equal [{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}], analyzer.results
   end
 
+<<<<<<< HEAD
   test '#initialize - returns code that does not include commented lines as significant steps' do 
     analyzer = CodeAnalyzer.new("[9, 3]\ndummy = 10\n#testing\nend") 
     assert_equal(
@@ -59,6 +60,42 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
   #     analyzer.code.lines.count
   #   )    
   # end   
+=======
+  test '#skip_comment - returns code that does not include commented lines as significant steps' do 
+    analyzer = CodeAnalyzer.new("[9, 3]\ndummy = 10\n#testing\nend") 
+    assert_equal(
+      analyzer.skip_comment.lines.count, 
+      analyzer.code.lines.count - 1
+    )
+    refute_includes(analyzer.skip_comment, '#testing') 
+  end 
+
+
+  test '#skip_comment - removes comment lines that with leading white space' do 
+    analyzer = CodeAnalyzer.new("[9, 3]\ndummy = 10\n  #testing\nend") 
+    assert_equal(
+      analyzer.skip_comment.lines.count, 
+      analyzer.code.lines.count - 1
+    )    
+    refute_includes(analyzer.skip_comment, '#testing') 
+  end
+
+  test '#skip_comment - removes =begin comment lines' do 
+    analyzer = CodeAnalyzer.new("[9, 3]\ndummy = 10\n  =begin\nend\n=end") 
+    assert_equal(
+      analyzer.skip_comment.lines.count, 
+      analyzer.code.lines.count - 2
+    )    
+  end      
+
+  test '#skip_comment - doesn\'t remove string interpolation' do 
+    analyzer = CodeAnalyzer.new("[9, 3]\ndummy = 10\n #{string_int = 1}\nend")
+    assert_equal(
+      analyzer.skip_comment.lines.count, 
+      analyzer.code.lines.count
+    )    
+  end   
+>>>>>>> 603a658c8619dfc06bc4488257a55c71267491c8
 end
 
 
