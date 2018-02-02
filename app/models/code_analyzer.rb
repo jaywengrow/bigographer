@@ -34,14 +34,14 @@ class CodeAnalyzer
       return "Error: Code doesn't run!"
     end
   end
+
+  private
   
-  def skip_comment
-    code.lines.reject do |line| 
+  def skip_comment(code_string)
+    code_string.lines.reject do |line| 
       line.lstrip.start_with?('#', '=begin', '=end') 
     end.join
   end
-
-  private
 
   def remove_comments(code_string)
     code_string.lines.reject do |line| 
