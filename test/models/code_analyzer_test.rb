@@ -28,13 +28,12 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
   end
 
   test '#run_code - returns code that skips comments' do
-    analyzer = CodeAnalyzer.new("[9, 3, 1].each do |number|\nsum += number\n#random comment here\nend\n=begin\n=end")
-    assert_equal analyzer.codes, ["count = 0\n[9\ncount += 1\ncount", "count = 0\n 3\ncount += 1\ncount", "count = 0\n 1].each do |number|\n\ncount += 1\nsum += number\n\ncount += 1\nend\n\ncount += 1\ncount"]
+    analyzer = CodeAnalyzer.new("[9].each do |number|\nsum += number\n#random comment here\nend\n=begin\n=end")
+    assert_equal analyzer.codes, ["count = 0\n[9].each do |number|\n\ncount += 1\nsum += number\n\ncount += 1\nend\n\ncount += 1\ncount"]
   end
 
   test '#run_code - returns code that does not skip an in line comment' do
-    analyzer = CodeAnalyzer.new(["[9, 3, 1].each do |number|\nsum += number #ARRRRRRRRRRRR\nend"])
-      p analyzer.codes
-    assert_equal analyzer.codes, ["count = 0\n[9\ncount += 1\ncount", "count = 0\n 3\ncount += 1\ncount", "count = 0\n 1].each do |number|\n\ncount += 1\nsum += number\n\ncount += 1\nend\n\ncount += 1\ncount"]
+    analyzer = CodeAnalyzer.new("[9].each do |number|\nsum += number #ARRRRRRRRRRRR\nend")
+    assert_equal analyzer.codes,["count = 0\n[9].each do |number|\n\ncount += 1\nsum += number #ARRRRRRRRRRRR\n\ncount += 1\nend\ncount += 1\ncount"]
   end
 end
