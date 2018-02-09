@@ -27,8 +27,20 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
     assert_equal [{x: 100, y: 201}, {x: 500, y: 1001}, {x: 1000, y: 2001}, {x: 1500, y: 3001}, {x: 2000, y: 4001}, {x: 2500, y: 5001}, {x: 3000, y: 6001}], code_analyzer.results
   end
 
+
+  test '#run_code - returns code that skips comments' do
+    analyzer = CodeAnalyzer.new("[9].each do |number|\nsum += number\n#random comment here\nend\n=begin\n=end")
+    assert_equal analyzer.codes, ["count = 0\n[9].each do |number|\n\ncount += 1\nsum += number\n\ncount += 1\nend\n\ncount += 1\ncount"]
+  end
+
+  test '#run_code - returns code that does not skip an in line comment' do
+    analyzer = CodeAnalyzer.new("[9].each do |number|\nsum += number #ARRRRRRRRRRRR\nend")
+    assert_equal analyzer.codes,["count = 0\n[9].each do |number|\n\ncount += 1\nsum += number #ARRRRRRRRRRRR\n\ncount += 1\nend\ncount += 1\ncount"]
+  end
+
   test '#run_code - that processes multiple elements in an array' do
     analyzer = CodeAnalyzer.new("[[9].each do |number|\nsum += number #ARRRRRRRRRRRR\nend, var = 'Im a pirate!'\n#testing]")
     assert_equal analyzer.codes,["count = 0\n[[9].each do |number|\n\ncount += 1\nsum += number #ARRRRRRRRRRRR\n\ncount += 1\nend\ncount += 1\ncount", "count = 0\n var = 'Im a pirate!'\n\ncount += 1\ncount"]
   end
+
 end
