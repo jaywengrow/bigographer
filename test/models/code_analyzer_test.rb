@@ -36,4 +36,10 @@ class CodeAnalyzerTest < ActiveSupport::TestCase
     analyzer = CodeAnalyzer.new("[9].each do |number|\nsum += number #ARRRRRRRRRRRR\nend")
     assert_equal analyzer.codes,["count = 0\n[9].each do |number|\n\ncount += 1\nsum += number #ARRRRRRRRRRRR\n\ncount += 1\nend\ncount += 1\ncount"]
   end
+
+  test '#run_code - that processes multiple elements in an array' do
+    analyzer = CodeAnalyzer.new("[[9].each do |number|\nsum += number #ARRRRRRRRRRRR\nend, var = 'Im a pirate!'\n#testing]")
+    assert_equal analyzer.codes,["count = 0\n[[9].each do |number|\n\ncount += 1\nsum += number #ARRRRRRRRRRRR\n\ncount += 1\nend\ncount += 1\ncount", "count = 0\n var = 'Im a pirate!'\n\ncount += 1\ncount"]
+  end
+
 end
