@@ -1,11 +1,12 @@
 class CodeAnalyzer
 
-  attr_reader :code, :graph_data
+  attr_reader :codes, :graphs_data
   
   def initialize(code='')
-    @code = code
+    codes_array = code.split(',')
+    @codes = remove_comments(codes_array)
     add_counters_to_code!
-    @graph_data = []
+    @graphs_data = Array.new(@codes.length) { Array.new }
   end
 
   # The 'results' method is the brains behind the time complexity analysis.
@@ -16,15 +17,15 @@ class CodeAnalyzer
   # and y indicates the number of steps it takes for the code to actually run.
 
   def results
-    if @code.index("[*]")
-      [100, 500, 1000, 1500, 2000, 2500, 3000].each do |data|
-        @graph_data << {x: data, y: run_code(@code.gsub("[*]", "#{(1..data).to_a}"))}
+    @codes.each_with_index do |code, i|
+      if code.index("[*]")
+        [100, 500, 1000, 1500, 2000, 2500, 3000].each do |data|
+          @graphs_data[i] << {x: data, y: run_code(code.gsub("[*]", "#{(1..data).to_a}"))}
+        end
       end
     end
-
-    return @graph_data
+    return @graphs_data
   end
-
 
   # With the 'run_code' method, we attempt to run the code and handle errors if they arise. This doesn't properly handle syntax
   # errors, so will need some further work.
@@ -38,18 +39,27 @@ class CodeAnalyzer
   end
 
   private
+  
+  def remove_comments(code_array)
+    code_array.map do |code_string|
+      code_string.lines.reject do |line| 
+        line.lstrip.start_with?('#', '=begin', '=end') 
+      end.join
+    end
+  end
+
   # The 'add_counters_to_code!' method implements our counting of the code's steps. We follow
   # a simplistic algorithm, and that is to set a 'count' variable before the code begins, and then
   # increment count after each line of code runs.
 
   def add_counters_to_code!
-    new_code = "count = 0\n"
-    @code.each_line do |line|
-      new_code += "#{line}\n"
-      new_code += "count += 1\n"
+    @codes.map! do |code|
+      new_code = "count = 0\n"
+      code.each_line do |line|
+        new_code += "#{line}\n"
+        new_code += "count += 1\n"
+      end
+      new_code += "count"
     end
-    new_code += "count"
-    @code = new_code
   end
-
 end
